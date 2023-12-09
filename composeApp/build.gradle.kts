@@ -58,6 +58,7 @@ kotlin {
             implementation(libs.ktor.client.content.negotation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.auth)
 
             // Image Loader
             implementation(libs.kamel.image)
