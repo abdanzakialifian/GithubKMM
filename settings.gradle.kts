@@ -1,4 +1,4 @@
-rootProject.name = "InstagramKMM"
+rootProject.name = "GithubKMM"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

@@ -42,6 +42,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.android)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             // Compose
@@ -68,6 +70,9 @@ kotlin {
 
             // Napier Logging
             implementation(libs.aakira.napier)
+
+            // Koin
+            implementation(libs.koin.core)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -80,7 +85,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.kmm.instagramkmm"
+    namespace = "com.kmm.githubkmm"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -89,7 +94,7 @@ android {
     sourceSets["main"].resources.exclude("src/commonMain/resources/MR")
 
     defaultConfig {
-        applicationId = "com.kmm.instagramkmm"
+        applicationId = "com.kmm.githubkmm"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -127,7 +132,7 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.kmm.instagramkmm"
+    multiplatformResourcesPackage = "com.kmm.githubkmm"
     iosBaseLocalizationRegion = "en"
     multiplatformResourcesSourceSet = "commonMain"
     disableStaticFrameworkWarning = true

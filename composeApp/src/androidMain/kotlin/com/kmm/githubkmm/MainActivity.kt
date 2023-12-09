@@ -1,4 +1,4 @@
-package com.kmm.instagramkmm
+package com.kmm.githubkmm
 
 import presentation.base.App
 import android.os.Bundle
