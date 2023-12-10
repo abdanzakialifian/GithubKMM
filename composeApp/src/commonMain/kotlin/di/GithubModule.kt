@@ -4,6 +4,7 @@ import data.repository.GithubRepositoryImpl
 import data.source.remote.RemoteDataSource
 import data.source.remote.client.GithubApi
 import data.source.remote.client.GithubClient
+import data.source.remote.paging.UsersPagingSource
 import domain.interactor.GetUsers
 import domain.repository.GithubRepository
 import org.koin.dsl.module
@@ -13,7 +14,8 @@ val dataModule = module {
     single { GithubClient }
     single { GithubApi(get()) }
     single { RemoteDataSource(get()) }
-    single<GithubRepository> { GithubRepositoryImpl(get()) }
+    factory <GithubRepository> { GithubRepositoryImpl(get()) }
+    single { UsersPagingSource(get()) }
 }
 
 val useCaseModule = module {

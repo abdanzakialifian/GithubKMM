@@ -5,57 +5,72 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UsersResponse(
-	@SerialName("gists_url")
-	val gistsUrl: String? = null,
+    @SerialName("total_count")
+    val totalCount: Int? = null,
 
-	@SerialName("repos_url")
-	val reposUrl: String? = null,
+    @SerialName("incomplete_results")
+    val incompleteResults: Boolean? = null,
 
-	@SerialName("following_url")
-	val followingUrl: String? = null,
+    @SerialName("items")
+    val items: List<UserItemResponse>? = null
+)
 
-	@SerialName("starred_url")
-	val starredUrl: String? = null,
+@Serializable
+data class UserItemResponse(
+    @SerialName("gists_url")
+    val gistsUrl: String? = null,
 
-	@SerialName("login")
-	val login: String? = null,
+    @SerialName("repos_url")
+    val reposUrl: String? = null,
 
-	@SerialName("followers_url")
-	val followersUrl: String? = null,
+    @SerialName("following_url")
+    val followingUrl: String? = null,
 
-	@SerialName("type")
-	val type: String? = null,
+    @SerialName("starred_url")
+    val starredUrl: String? = null,
 
-	@SerialName("url")
-	val url: String? = null,
+    @SerialName("login")
+    val login: String? = null,
 
-	@SerialName("subscriptions_url")
-	val subscriptionsUrl: String? = null,
+    @SerialName("followers_url")
+    val followersUrl: String? = null,
 
-	@SerialName("received_events_url")
-	val receivedEventsUrl: String? = null,
+    @SerialName("type")
+    val type: String? = null,
 
-	@SerialName("avatar_url")
-	val avatarUrl: String? = null,
+    @SerialName("url")
+    val url: String? = null,
 
-	@SerialName("events_url")
-	val eventsUrl: String? = null,
+    @SerialName("subscriptions_url")
+    val subscriptionsUrl: String? = null,
 
-	@SerialName("html_url")
-	val htmlUrl: String? = null,
+    @SerialName("score")
+    val score: Double? = null,
 
-	@SerialName("site_admin")
-	val siteAdmin: Boolean? = null,
+    @SerialName("received_events_url")
+    val receivedEventsUrl: String? = null,
 
-	@SerialName("id")
-	val id: Int? = null,
+    @SerialName("avatar_url")
+    val avatarUrl: String? = null,
 
-	@SerialName("gravatar_id")
-	val gravatarId: String? = null,
+    @SerialName("events_url")
+    val eventsUrl: String? = null,
 
-	@SerialName("node_id")
-	val nodeId: String? = null,
+    @SerialName("html_url")
+    val htmlUrl: String? = null,
 
-	@SerialName("organizations_url")
-	val organizationsUrl: String? = null
+    @SerialName("site_admin")
+    val siteAdmin: Boolean? = null,
+
+    @SerialName("id")
+    val id: Int? = null,
+
+    @SerialName("gravatar_id")
+    val gravatarId: String? = null,
+
+    @SerialName("node_id")
+    val nodeId: String? = null,
+
+    @SerialName("organizations_url")
+    val organizationsUrl: String? = null
 )

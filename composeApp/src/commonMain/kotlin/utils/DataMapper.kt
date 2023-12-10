@@ -1,14 +1,12 @@
 package utils
 
-import data.source.remote.response.UsersResponse
-import domain.model.UsersModel
+import data.source.remote.response.UserItemResponse
+import domain.model.UserItemModel
 
 object DataMapper {
-    fun List<UsersResponse>.mapToUsersModel(): List<UsersModel> = this.map { data ->
-        UsersModel(
-            id = data.id,
-            login = data.login,
-            avatarUrl = data.avatarUrl
-        )
-    }
+    fun UserItemResponse.mapToUserItemModel(): UserItemModel = UserItemModel(
+        id = id,
+        login = login,
+        avatarUrl = avatarUrl
+    )
 }

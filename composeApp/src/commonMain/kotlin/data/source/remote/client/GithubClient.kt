@@ -3,6 +3,7 @@ package data.source.remote.client
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -39,6 +40,11 @@ object GithubClient {
                         )
                     }
                 }
+            }
+            install(HttpTimeout) {
+                connectTimeoutMillis = 30_000L
+                requestTimeoutMillis = 30_000L
+                socketTimeoutMillis = 30_000L
             }
         }.also { Napier.base(DebugAntilog()) }
     }

@@ -75,6 +75,10 @@ kotlin {
             // Koin
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+
+            // Paging
+            implementation(libs.paging.compose.common)
+            implementation(libs.paging.common)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

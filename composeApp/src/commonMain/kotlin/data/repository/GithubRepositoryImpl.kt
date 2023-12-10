@@ -1,24 +1,26 @@
 package data.repository
 
-import data.source.remote.RemoteDataSource
-import data.source.remote.response.UsersResponse
-import domain.model.UsersModel
+import app.cash.paging.Pager
+import app.cash.paging.PagingConfig
+import app.cash.paging.PagingData
+import app.cash.paging.map
+import data.source.remote.paging.UsersPagingSource
+import domain.model.UserItemModel
 import domain.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import utils.DataMapper.mapToUsersModel
-import utils.UiState
+import utils.DataMapper.mapToUserItemModel
 
-class GithubRepositoryImpl(private val remoteDataSource: RemoteDataSource) : GithubRepository {
-    override fun getUsers(): Flow<UiState<List<UsersModel>>> =
-        remoteDataSource.getData<List<UsersResponse>>("users").map { uiState ->
-            when(uiState) {
-                is UiState.Loading -> UiState.Loading
-                is UiState.Success -> {
-                    val mapper = uiState.data.mapToUsersModel()
-                    UiState.Success(mapper)
-                }
-                is UiState.Error -> UiState.Error(uiState.message)
-            }
+class GithubRepositoryImpl(private val usersPagingSource: UsersPagingSource) : GithubRepository {
+    override fun getUsers(): Flow<PagingData<UserItemModel>> = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            initialLoadSize = 10
+        ),
+        pagingSourceFactory = { usersPagingSource }
+    ).flow.map { pagingData ->
+        pagingData.map { data ->
+            data.mapToUserItemModel()
         }
+    }
 }

@@ -1,10 +1,10 @@
 package domain.repository
 
-import domain.model.UsersModel
+import app.cash.paging.PagingData
+import domain.model.UserItemModel
 import kotlinx.coroutines.flow.Flow
-import utils.UiState
 
 
 interface GithubRepository {
-    fun getUsers(): Flow<UiState<List<UsersModel>>>
+    fun getUsers(): Flow<PagingData<UserItemModel>>
 }
