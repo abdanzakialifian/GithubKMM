@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import utils.UiState
 
-class RemoteDataSource(private val githubApi: GithubApi) {
-    fun getUsers(): Flow<UiState<List<UsersResponse>>> = flow {
-        githubApi.getUsers()
+class RemoteDataSource(val githubApi: GithubApi) {
+    inline fun <reified T : Any> getData(url: String): Flow<UiState<T>> = flow {
+        githubApi.getData<T>(url)
             .onSuccess { response ->
                 emit(UiState.Success(response))
             }

@@ -1,7 +1,9 @@
 package data.source.remote.response
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UsersResponse(
 	@SerialName("gists_url")
 	val gistsUrl: String? = null,

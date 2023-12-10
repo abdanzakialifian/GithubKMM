@@ -74,6 +74,7 @@ kotlin {
 
             // Koin
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

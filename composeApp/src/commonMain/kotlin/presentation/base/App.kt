@@ -2,8 +2,21 @@ package presentation.base
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import di.dataModule
+import di.useCaseModule
+import di.viewModelModule
+import org.koin.compose.KoinApplication
+import presentation.home.HomeScreen
 
 @Composable
 fun App() {
-    MaterialTheme {}
+    KoinApplication(
+        application = {
+            modules(dataModule, useCaseModule, viewModelModule)
+        }
+    ) {
+        MaterialTheme {
+            HomeScreen()
+        }
+    }
 }

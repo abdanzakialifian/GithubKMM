@@ -14,7 +14,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 
 object GithubClient {
-    internal fun createHttpClient(): HttpClient {
+    fun createHttpClient(): HttpClient {
         return HttpClient {
             defaultRequest {
                 url("https://api.github.com/")
@@ -25,15 +25,18 @@ object GithubClient {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        Napier.v(message = "httpclient", tag = message)
+                        Napier.v(tag = "httpclient", message = message)
                     }
                 }
-                level = LogLevel.HEADERS
+                level = LogLevel.BODY
             }
             install(Auth) {
                 bearer {
                     loadTokens {
-                        BearerTokens("", "")
+                        BearerTokens(
+                            "",
+                            ""
+                        )
                     }
                 }
             }
