@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <string name="resource_multiplatform">Resource Multiplatform</string>
+    <string name="app_name_ui">Github User</string>
+    <string name="app_description">The complete developer platform to build, scale, and deliver secure software.</string>
 </resources>

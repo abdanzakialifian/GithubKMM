@@ -7,6 +7,7 @@ object DataMapper {
     fun UserItemResponse.mapToUserItemModel(): UserItemModel = UserItemModel(
         id = id,
         login = login,
-        avatarUrl = avatarUrl
+        avatarUrl = avatarUrl,
+        htmlUrl = htmlUrl
     )
 }
