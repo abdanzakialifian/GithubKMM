@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class HomeViewModel(private val getUsersUseCase: GetUsers) : ViewModel() {
+class HomeViewModel(getUsersUseCase: GetUsers) : ViewModel() {
     val getUsers: StateFlow<PagingData<UserItemModel>> = getUsersUseCase().stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000L), PagingData.empty()
     )

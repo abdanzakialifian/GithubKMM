@@ -1,6 +1,7 @@
 package presentation.base
 
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import di.dataModule
 import di.useCaseModule
@@ -16,7 +17,9 @@ fun App() {
         }
     ) {
         MaterialTheme {
-            HomeScreen()
+            Surface {
+                HomeScreen()
+            }
         }
     }
 }

@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name_ui">Github User</string>
     <string name="app_description">The complete developer platform to build, scale, and deliver secure software.</string>
+    <string name="title_link">Github Profile</string>
 </resources>

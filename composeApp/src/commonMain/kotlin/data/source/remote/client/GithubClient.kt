@@ -35,8 +35,8 @@ object GithubClient {
                 bearer {
                     loadTokens {
                         BearerTokens(
-                            "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",
-                            "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"
+                            "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",
+                            "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"
                         )
                     }
                 }
