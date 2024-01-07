@@ -14,7 +14,7 @@ class UsersPagingSource(private val githubApi: GithubApi) : PagingSource<Int, Us
 
         return try {
             val query = mapOf(
-                "q" to "abdanzaki",
+                "q" to "zaki",
                 "page" to currentPage,
                 "per_page" to params.loadSize
             )

@@ -41,29 +41,31 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
             textAlign = TextAlign.Center,
         )
 
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(start = 10.dp, top = 20.dp, end = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(bottom = 10.dp),
+        ) {
+            items(
+                getUsersPagingData.itemCount,
+                key = getUsersPagingData.itemKey { it.id ?: 0 },
+            ) { index ->
+                val item = getUsersPagingData[index]
+                UserItem(
+                    imageUrl = item?.avatarUrl.orEmpty(),
+                    name = item?.login.orEmpty(),
+                    onUserClicked = {},
+                    onLinkClicked = {
+                        localUriHandler.openUri(item?.htmlUrl.orEmpty())
+                    },
+                )
+            }
+        }
+
         when (getUsersPagingData.loadState.refresh) {
             is LoadState.Error -> {}
             LoadState.Loading -> {}
-            is LoadState.NotLoading -> LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(start = 10.dp, top = 20.dp, end = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(bottom = 10.dp),
-            ) {
-                items(
-                    getUsersPagingData.itemCount,
-                    key = getUsersPagingData.itemKey { it.id ?: 0 },
-                ) { index ->
-                    val item = getUsersPagingData[index]
-                    UserItem(
-                        imageUrl = item?.avatarUrl.orEmpty(),
-                        name = item?.login.orEmpty(),
-                        onUserClicked = {},
-                        onLinkClicked = {
-                            localUriHandler.openUri(item?.htmlUrl.orEmpty())
-                        },
-                    )
-                }
-            }
+            is LoadState.NotLoading -> {}
         }
     }
 }
