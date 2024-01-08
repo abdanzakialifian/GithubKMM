@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,6 +21,7 @@ import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.compose.itemKey
 import com.kmm.githubkmm.MR
+import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 import org.koin.compose.koinInject
 
@@ -30,8 +33,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = stringResource(MR.strings.app_name_ui),
-            fontSize = 20.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
+            fontFamily = fontFamilyResource(MR.fonts.Poppins.bold),
         )
 
         Text(
@@ -39,6 +43,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
             text = stringResource(MR.strings.app_description),
             fontSize = 12.sp,
             textAlign = TextAlign.Center,
+            fontFamily = fontFamilyResource(MR.fonts.Poppins.medium),
         )
 
         LazyColumn(

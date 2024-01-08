@@ -19,7 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmm.githubkmm.MR
-import dev.icerock.moko.resources.ImageResource
+import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import io.kamel.image.KamelImage
@@ -54,7 +54,12 @@ fun UserItem(
                 alignment = Alignment.CenterVertically,
             ),
         ) {
-            Text(modifier = Modifier.padding(start = 4.dp), text = name, fontSize = 16.sp)
+            Text(
+                modifier = Modifier.padding(start = 4.dp),
+                text = name,
+                fontSize = 14.sp,
+                fontFamily = fontFamilyResource(MR.fonts.Poppins.semiBold),
+            )
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))
@@ -67,6 +72,7 @@ fun UserItem(
                     text = stringResource(MR.strings.title_link),
                     fontSize = 14.sp,
                     color = Color.Blue,
+                    fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                 )
                 Image(
                     modifier = Modifier.size(14.dp),
