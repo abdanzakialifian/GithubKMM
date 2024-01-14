@@ -1,10 +1,13 @@
 package presentation.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -43,11 +46,15 @@ fun UserItem(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         KamelImage(
-            modifier = Modifier.size(90.dp, 120.dp).clip(RoundedCornerShape(8.dp)),
+            modifier = Modifier.size(100.dp, 150.dp).clip(RoundedCornerShape(8.dp)),
             resource = asyncPainterResource(imageUrl),
             contentScale = ContentScale.Crop,
             contentDescription = null,
+            onLoading = {
+                Box(modifier = Modifier.fillMaxSize().background(color = Color.Gray))
+            }
         )
+
         Column(
             verticalArrangement = Arrangement.spacedBy(
                 space = 4.dp,
@@ -60,6 +67,7 @@ fun UserItem(
                 fontSize = 14.sp,
                 fontFamily = fontFamilyResource(MR.fonts.Poppins.semiBold),
             )
+
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(4.dp))

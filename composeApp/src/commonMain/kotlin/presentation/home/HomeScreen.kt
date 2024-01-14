@@ -11,19 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
+import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.compose.itemKey
 import com.kmm.githubkmm.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
+import domain.model.UserItemModel
 import org.koin.compose.koinInject
+import presentation.component.SearchBar
 
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
@@ -46,31 +48,50 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
             fontFamily = fontFamilyResource(MR.fonts.Poppins.medium),
         )
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(start = 10.dp, top = 20.dp, end = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            contentPadding = PaddingValues(bottom = 10.dp),
-        ) {
-            items(
-                getUsersPagingData.itemCount,
-                key = getUsersPagingData.itemKey { it.id ?: 0 },
-            ) { index ->
-                val item = getUsersPagingData[index]
-                UserItem(
-                    imageUrl = item?.avatarUrl.orEmpty(),
-                    name = item?.login.orEmpty(),
-                    onUserClicked = {},
-                    onLinkClicked = {
-                        localUriHandler.openUri(item?.htmlUrl.orEmpty())
-                    },
-                )
+        SearchBar(
+            value = homeViewModel.search,
+            placeholder = MR.strings.search_users,
+            onValueChange = { search ->
+                homeViewModel.onSearchQuery(search)
+            }
+        )
+
+        UsersPagingState(getUsersPagingData, localUriHandler)
+    }
+}
+
+@Composable
+private fun UsersPagingState(
+    pagingData: LazyPagingItems<UserItemModel>,
+    localUriHandler: UriHandler,
+) {
+    when (pagingData.loadState.refresh) {
+        is LoadState.Loading -> {}
+        is LoadState.NotLoading -> {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(vertical = 10.dp),
+            ) {
+                items(
+                    pagingData.itemCount,
+                    key = pagingData.itemKey { it.id ?: 0 },
+                ) { index ->
+                    val item = pagingData[index]
+                    UserItem(
+                        imageUrl = item?.avatarUrl.orEmpty(),
+                        name = item?.login.orEmpty(),
+                        onUserClicked = {},
+                        onLinkClicked = {
+                            localUriHandler.openUri(item?.htmlUrl.orEmpty())
+                        },
+                    )
+                }
             }
         }
 
-        when (getUsersPagingData.loadState.refresh) {
-            is LoadState.Error -> {}
-            LoadState.Loading -> {}
-            is LoadState.NotLoading -> {}
+        is LoadState.Error -> {
+
         }
     }
 }

@@ -7,18 +7,21 @@ import app.cash.paging.PagingState
 import data.source.remote.client.GithubApi
 import data.source.remote.response.UserItemResponse
 import data.source.remote.response.UsersResponse
+import utils.URL
 
 class UsersPagingSource(private val githubApi: GithubApi) : PagingSource<Int, UserItemResponse>() {
+    private var search: String = ""
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserItemResponse> {
         val currentPage = params.key ?: 1
 
         return try {
             val query = mapOf(
-                "q" to "zaki",
+                "q" to search,
                 "page" to currentPage,
                 "per_page" to params.loadSize
             )
-            val response = githubApi.getDataPaging<UsersResponse>("search/users", query = query)
+            val response = githubApi.getDataPaging<UsersResponse>(URL.SEARCH_USERS, query = query)
 
             PagingSourceLoadResultPage(
                 data = response.items ?: listOf(),
@@ -35,4 +38,8 @@ class UsersPagingSource(private val githubApi: GithubApi) : PagingSource<Int, Us
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+
+    fun setSearchQuery(query: String) {
+        search = query.ifBlank { "a" }
+    }
 }

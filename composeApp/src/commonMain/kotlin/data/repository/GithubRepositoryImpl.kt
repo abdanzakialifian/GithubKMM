@@ -12,12 +12,16 @@ import kotlinx.coroutines.flow.map
 import utils.DataMapper.mapToUserItemModel
 
 class GithubRepositoryImpl(private val usersPagingSource: UsersPagingSource) : GithubRepository {
-    override fun getUsers(): Flow<PagingData<UserItemModel>> = Pager(
+    override fun getUsers(query: String): Flow<PagingData<UserItemModel>> = Pager(
         config = PagingConfig(
             pageSize = 10,
             initialLoadSize = 10
         ),
-        pagingSourceFactory = { usersPagingSource }
+        pagingSourceFactory = {
+            usersPagingSource.apply {
+                setSearchQuery(query)
+            }
+        }
     ).flow.map { pagingData ->
         pagingData.map { data ->
             data.mapToUserItemModel()
