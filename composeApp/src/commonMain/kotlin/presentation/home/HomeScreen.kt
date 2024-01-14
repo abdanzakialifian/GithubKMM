@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -66,13 +67,16 @@ private fun UsersPagingState(
     localUriHandler: UriHandler,
 ) {
     when (pagingData.loadState.refresh) {
-        is LoadState.Loading -> {}
+        is LoadState.Loading -> {
+            LazyColumnLayout {
+                items(10) {
+                    UserItemPlaceholder()
+                }
+            }
+        }
+
         is LoadState.NotLoading -> {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(vertical = 10.dp),
-            ) {
+            LazyColumnLayout {
                 items(
                     pagingData.itemCount,
                     key = pagingData.itemKey { it.id ?: 0 },
@@ -91,7 +95,18 @@ private fun UsersPagingState(
         }
 
         is LoadState.Error -> {
-
+            // TODO Need handle
         }
+    }
+}
+
+@Composable
+private fun LazyColumnLayout(content: LazyListScope.() -> Unit) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(vertical = 10.dp),
+    ) {
+        content()
     }
 }
