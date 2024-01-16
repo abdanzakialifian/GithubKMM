@@ -49,6 +49,7 @@ fun UserItemPlaceholder(modifier: Modifier = Modifier) {
                 Box(
                     modifier = Modifier.size(100.dp, 14.dp).clip(RoundedCornerShape(4.dp)).shimmer()
                 )
+
                 Box(
                     modifier = Modifier.size(14.dp).clip(RoundedCornerShape(2.dp)).shimmer()
                 )

@@ -7,6 +7,7 @@ import app.cash.paging.PagingState
 import data.source.remote.client.GithubApi
 import data.source.remote.response.UserItemResponse
 import data.source.remote.response.UsersResponse
+import kotlinx.coroutines.delay
 import utils.URL
 
 class UsersPagingSource(private val githubApi: GithubApi) : PagingSource<Int, UserItemResponse>() {
@@ -23,10 +24,14 @@ class UsersPagingSource(private val githubApi: GithubApi) : PagingSource<Int, Us
             )
             val response = githubApi.getDataPaging<UsersResponse>(URL.SEARCH_USERS, query = query)
 
+            delay(3000L)
+
             PagingSourceLoadResultPage(
                 data = response.items ?: listOf(),
                 prevKey = (currentPage - 1).takeIf { currentPage != 1 },
-                nextKey = (currentPage + 1).takeIf { response.items?.isNotEmpty() == true }
+                nextKey = (currentPage + 1).takeIf {
+                    (currentPage * params.loadSize) < (response.totalCount ?: 0)
+                }
             )
         } catch (e: Exception) {
             PagingSourceLoadResultError(e)

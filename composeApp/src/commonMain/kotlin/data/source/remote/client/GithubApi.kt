@@ -16,10 +16,9 @@ class GithubApi(val githubClient: GithubClient) {
     suspend inline fun <reified T : Any> getDataPaging(
         url: String,
         query: Map<String, Any>? = null
-    ): T =
-        githubClient.createHttpClient().get(url) {
-            query?.forEach { map ->
-                parameter(map.key, map.value)
-            }
-        }.body()
+    ): T = githubClient.createHttpClient().get(url) {
+        query?.forEach { map ->
+            parameter(map.key, map.value)
+        }
+    }.body()
 }

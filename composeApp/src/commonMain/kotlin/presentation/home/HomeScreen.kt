@@ -1,18 +1,27 @@
 package presentation.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,9 +29,9 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import app.cash.paging.compose.itemKey
 import com.kmm.githubkmm.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import domain.model.UserItemModel
 import org.koin.compose.koinInject
@@ -57,45 +66,100 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
             }
         )
 
-        UsersPagingState(getUsersPagingData, localUriHandler)
+        UsersPagingState(
+            getUsersPagingData,
+            onUserClicked = { id ->
+
+            },
+            onLinkClicked = { url ->
+                localUriHandler.openUri(url)
+            },
+            onRetry = {
+                getUsersPagingData.retry()
+            }
+        )
     }
 }
 
 @Composable
 private fun UsersPagingState(
     pagingData: LazyPagingItems<UserItemModel>,
-    localUriHandler: UriHandler,
+    onUserClicked: (Int) -> Unit,
+    onLinkClicked: (String) -> Unit,
+    onRetry: () -> Unit,
 ) {
-    when (pagingData.loadState.refresh) {
-        is LoadState.Loading -> {
-            LazyColumnLayout {
+    LazyColumnLayout {
+        when (pagingData.loadState.refresh) {
+            is LoadState.Loading -> {
                 items(10) {
                     UserItemPlaceholder()
                 }
             }
-        }
 
-        is LoadState.NotLoading -> {
-            LazyColumnLayout {
-                items(
-                    pagingData.itemCount,
-                    key = pagingData.itemKey { it.id ?: 0 },
-                ) { index ->
+            is LoadState.NotLoading -> {
+                items(count = pagingData.itemCount, key = { it }) { index ->
                     val item = pagingData[index]
                     UserItem(
-                        imageUrl = item?.avatarUrl.orEmpty(),
                         name = item?.login.orEmpty(),
-                        onUserClicked = {},
-                        onLinkClicked = {
-                            localUriHandler.openUri(item?.htmlUrl.orEmpty())
+                        imageUrl = item?.avatarUrl.orEmpty(),
+                        onUserClicked = {
+                            onUserClicked(item?.id ?: 0)
                         },
+                        onLinkClicked = {
+                            onLinkClicked(item?.htmlUrl.orEmpty())
+                        },
+                    )
+                }
+            }
+
+            is LoadState.Error -> {
+                item {
+                    Box(
+                        modifier = Modifier.fillParentMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Image(
+                            modifier = Modifier.size(300.dp),
+                            painter = painterResource(MR.images.img_error),
+                            contentDescription = null,
+                        )
+                    }
+                }
+            }
+        }
+
+        if (pagingData.loadState.append is LoadState.Loading) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(40.dp),
+                        color = Color.Blue,
                     )
                 }
             }
         }
 
-        is LoadState.Error -> {
-            // TODO Need handle
+        if (pagingData.loadState.append is LoadState.Error) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    IconButton(
+                        onClick = onRetry,
+                        content = {
+                            Icon(
+                                modifier = Modifier.size(40.dp),
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+                }
+            }
         }
     }
 }

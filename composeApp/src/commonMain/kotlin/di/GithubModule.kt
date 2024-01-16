@@ -15,7 +15,7 @@ val dataModule = module {
     single { GithubApi(get()) }
     single { RemoteDataSource(get()) }
     factory <GithubRepository> { GithubRepositoryImpl(get()) }
-    single { UsersPagingSource(get()) }
+    factory { UsersPagingSource(get()) }
 }
 
 val useCaseModule = module {

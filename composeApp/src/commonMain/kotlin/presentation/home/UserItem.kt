@@ -30,8 +30,8 @@ import io.kamel.image.asyncPainterResource
 
 @Composable
 fun UserItem(
-    imageUrl: String,
     name: String,
+    imageUrl: String,
     onUserClicked: () -> Unit,
     onLinkClicked: () -> Unit,
     modifier: Modifier = Modifier,

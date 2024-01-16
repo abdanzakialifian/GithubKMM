@@ -15,13 +15,13 @@ class GithubRepositoryImpl(private val usersPagingSource: UsersPagingSource) : G
     override fun getUsers(query: String): Flow<PagingData<UserItemModel>> = Pager(
         config = PagingConfig(
             pageSize = 10,
-            initialLoadSize = 10
+            initialLoadSize = 10,
         ),
         pagingSourceFactory = {
             usersPagingSource.apply {
                 setSearchQuery(query)
             }
-        }
+        },
     ).flow.map { pagingData ->
         pagingData.map { data ->
             data.mapToUserItemModel()
