@@ -50,6 +50,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            implementation(compose.animation)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
 
@@ -79,6 +80,11 @@ kotlin {
             // Paging
             implementation(libs.paging.compose.common)
             implementation(libs.paging.common)
+
+            // PreCompose
+            api(libs.tlaster.precompose)
+            api(libs.tlaster.precompose.viewmodel)
+            api(libs.tlaster.precompose.koin)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

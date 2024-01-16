@@ -26,6 +26,7 @@ moko-mvvm = "0.16.1"
 koin = "3.4.3"
 koin-compose = "1.1.0"
 paging-compose = "3.3.0-alpha02-0.4.0"
+preCompose = "1.5.10"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -67,7 +68,10 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
 paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging-compose" }
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging-compose" }
-androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "compose" }
+tlaster-precompose = {module = "moe.tlaster:precompose", version.ref = "preCompose"}
+tlaster-precompose-viewmodel = {module = "moe.tlaster:precompose-viewmodel", version.ref = "preCompose"}
+tlaster-precompose-koin = {module = "moe.tlaster:precompose-koin", version.ref = "preCompose"}
+
 
 
 [plugins]

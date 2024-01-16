@@ -34,11 +34,10 @@ import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import domain.model.UserItemModel
-import org.koin.compose.koinInject
 import presentation.component.SearchBar
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
+fun HomeScreen(homeViewModel: HomeViewModel, onNavigateToDetail: (Int) -> Unit) {
     val localUriHandler = LocalUriHandler.current
     val getUsersPagingData = homeViewModel.getUsers.collectAsLazyPagingItems()
 
@@ -68,9 +67,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = koinInject()) {
 
         UsersPagingState(
             getUsersPagingData,
-            onUserClicked = { id ->
-
-            },
+            onUserClicked = onNavigateToDetail,
             onLinkClicked = { url ->
                 localUriHandler.openUri(url)
             },

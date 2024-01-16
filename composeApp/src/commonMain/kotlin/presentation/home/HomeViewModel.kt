@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.cash.paging.PagingData
 import app.cash.paging.cachedIn
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import domain.interactor.GetUsers
 import domain.model.UserItemModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,6 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class HomeViewModel(getUsersUseCase: GetUsers) : ViewModel() {
     var search by mutableStateOf("")
