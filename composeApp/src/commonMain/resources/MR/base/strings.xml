@@ -6,4 +6,9 @@
     </string>
     <string name="title_link">Github Profile</string>
     <string name="search_users">Search Users...</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="repositories">Repositories</string>
+    <string name="bio">Bio : </string>
+    <string name="company">Company : </string>
 </resources>

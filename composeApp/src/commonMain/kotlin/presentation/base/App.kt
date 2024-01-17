@@ -9,9 +9,12 @@ import di.viewModelModule
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import moe.tlaster.precompose.navigation.transition.NavTransition
 import org.koin.compose.KoinApplication
+import presentation.detail.DetailScreen
+import presentation.detail.DetailViewModel
 import presentation.home.HomeScreen
 import presentation.home.HomeViewModel
 
@@ -34,7 +37,24 @@ fun App() {
                     ) {
                         scene(route = "/home", navTransition = NavTransition()) {
                             val viewModel = koinViewModel(vmClass = HomeViewModel::class)
-                            HomeScreen(homeViewModel = viewModel, onNavigateToDetail = {})
+                            HomeScreen(
+                                homeViewModel = viewModel,
+                                onNavigateToDetail = { username ->
+                                    navigator.navigate("/detail/$username")
+                                },
+                            )
+                        }
+                        scene(
+                            route = "/detail/{username}",
+                            navTransition = NavTransition(),
+                        ) { backStackEntry ->
+                            val username = backStackEntry.path<String>("username")
+                            val viewModel = koinViewModel(vmClass = DetailViewModel::class)
+                            DetailScreen(
+                                username = username.orEmpty(),
+                                detailViewModel = viewModel,
+                                onNavigateBack = { navigator.goBack() }
+                            )
                         }
                     }
                 }

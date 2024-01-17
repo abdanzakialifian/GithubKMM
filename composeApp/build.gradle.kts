@@ -37,13 +37,14 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.ui)
-            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+            api(compose.uiTooling)
+            api(compose.preview)
         }
         commonMain.dependencies {
             // Compose

@@ -37,7 +37,7 @@ import domain.model.UserItemModel
 import presentation.component.SearchBar
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel, onNavigateToDetail: (Int) -> Unit) {
+fun HomeScreen(homeViewModel: HomeViewModel, onNavigateToDetail: (String) -> Unit) {
     val localUriHandler = LocalUriHandler.current
     val getUsersPagingData = homeViewModel.getUsers.collectAsLazyPagingItems()
 
@@ -81,7 +81,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, onNavigateToDetail: (Int) -> Unit) 
 @Composable
 private fun UsersPagingState(
     pagingData: LazyPagingItems<UserItemModel>,
-    onUserClicked: (Int) -> Unit,
+    onUserClicked: (String) -> Unit,
     onLinkClicked: (String) -> Unit,
     onRetry: () -> Unit,
 ) {
@@ -100,7 +100,7 @@ private fun UsersPagingState(
                         name = item?.login.orEmpty(),
                         imageUrl = item?.avatarUrl.orEmpty(),
                         onUserClicked = {
-                            onUserClicked(item?.id ?: 0)
+                            onUserClicked(item?.login.orEmpty())
                         },
                         onLinkClicked = {
                             onLinkClicked(item?.htmlUrl.orEmpty())

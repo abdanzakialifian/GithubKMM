@@ -24,8 +24,6 @@ class UsersPagingSource(private val githubApi: GithubApi) : PagingSource<Int, Us
             )
             val response = githubApi.getDataPaging<UsersResponse>(URL.SEARCH_USERS, query = query)
 
-            delay(3000L)
-
             PagingSourceLoadResultPage(
                 data = response.items ?: listOf(),
                 prevKey = (currentPage - 1).takeIf { currentPage != 1 },

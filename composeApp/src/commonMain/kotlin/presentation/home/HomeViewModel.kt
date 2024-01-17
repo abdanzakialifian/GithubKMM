@@ -21,15 +21,15 @@ import moe.tlaster.precompose.viewmodel.viewModelScope
 class HomeViewModel(getUsersUseCase: GetUsers) : ViewModel() {
     var search by mutableStateOf("")
 
-    private val searchQuery = MutableStateFlow("")
+    private val _searchQuery = MutableStateFlow("")
 
     fun onSearchQuery(query: String) {
         this.search = query
-        this.searchQuery.value = query
+        this._searchQuery.value = query
     }
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    val getUsers: StateFlow<PagingData<UserItemModel>> = searchQuery.debounce(500L)
+    val getUsers: StateFlow<PagingData<UserItemModel>> = _searchQuery.debounce(500L)
         .flatMapLatest { searchQuery ->
             getUsersUseCase(searchQuery)
         }

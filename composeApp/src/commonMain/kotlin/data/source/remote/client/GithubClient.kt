@@ -13,6 +13,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 
 object GithubClient {
     fun createHttpClient(): HttpClient {
@@ -21,7 +22,11 @@ object GithubClient {
                 url("https://api.github.com/")
             }
             install(ContentNegotiation) {
-                json()
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                    }
+                )
             }
             install(Logging) {
                 logger = object : Logger {
