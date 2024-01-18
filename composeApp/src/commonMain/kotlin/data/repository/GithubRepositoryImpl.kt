@@ -16,6 +16,7 @@ import utils.DataMapper.mapToDetailModel
 import utils.DataMapper.mapToUserItemModel
 import utils.URL
 import utils.UiState
+import utils.mapState
 
 class GithubRepositoryImpl(
     private val usersPagingSource: UsersPagingSource,
@@ -38,12 +39,9 @@ class GithubRepositoryImpl(
     }
 
     override fun getDetail(username: String): Flow<UiState<DetailModel>> =
-        remoteDataSource.getData<DetailResponse>(URL.DETAIL_USER.replace("username", username))
-            .map { uiState ->
-                when (uiState) {
-                    is UiState.Loading -> UiState.Loading
-                    is UiState.Success -> UiState.Success(uiState.data.mapToDetailModel())
-                    is UiState.Error -> UiState.Error(uiState.message)
-                }
+        remoteDataSource
+            .getData<DetailResponse>(URL.DETAIL_USER.replace("username", username))
+            .mapState { detailResponse ->
+                detailResponse.mapToDetailModel()
             }
 }
