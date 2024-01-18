@@ -39,6 +39,7 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import utils.orHyphen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -140,7 +141,7 @@ fun DetailContent(
                 )
 
                 Text(
-                    text = if (data.bio.isNullOrEmpty()) "-" else data.bio,
+                    text = data.bio.orHyphen(),
                     fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                     fontSize = 12.sp,
                     overflow = TextOverflow.Ellipsis,
@@ -155,7 +156,7 @@ fun DetailContent(
                 )
 
                 Text(
-                    text = if (data.company.isNullOrEmpty()) "-" else data.company,
+                    text = data.company.orHyphen(),
                     fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                     fontSize = 12.sp,
                     overflow = TextOverflow.Ellipsis,
@@ -174,7 +175,7 @@ fun DetailContent(
 private fun TabHeader(
     tabsData: List<String>,
     pagerState: PagerState,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
 ) {
     TabRow(
         modifier = Modifier.fillMaxWidth(),
