@@ -7,5 +7,5 @@ import utils.UiState
 
 class GetDetail(private val githubRepository: GithubRepository) {
     operator fun invoke(username: String): Flow<UiState<DetailModel>> =
-        githubRepository.getDetail(username)
+        githubRepository.getDetail(username = username)
 }

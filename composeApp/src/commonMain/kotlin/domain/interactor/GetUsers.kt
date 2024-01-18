@@ -6,5 +6,6 @@ import domain.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetUsers(private val githubRepository: GithubRepository) {
-    operator fun invoke(query: String): Flow<PagingData<UserItemModel>> = githubRepository.getUsers(query)
+    operator fun invoke(query: String): Flow<PagingData<UserItemModel>> =
+        githubRepository.getUsers(query = query)
 }
