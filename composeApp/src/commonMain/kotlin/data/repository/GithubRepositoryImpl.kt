@@ -7,12 +7,15 @@ import app.cash.paging.map
 import data.source.remote.RemoteDataSource
 import data.source.remote.paging.UsersPagingSource
 import data.source.remote.response.DetailResponse
+import data.source.remote.response.FollowItemResponse
 import domain.model.DetailModel
+import domain.model.FollowItemModel
 import domain.model.UserItemModel
 import domain.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import utils.DataMapper.mapToDetailModel
+import utils.DataMapper.mapToFollowItemModel
 import utils.DataMapper.mapToUserItemModel
 import utils.URL
 import utils.UiState
@@ -43,5 +46,14 @@ class GithubRepositoryImpl(
             .getData<DetailResponse>(URL.DETAIL_USER.replace("username", username))
             .mapState { detailResponse ->
                 detailResponse.mapToDetailModel()
+            }
+
+    override fun getFollows(username: String, type: String): Flow<UiState<List<FollowItemModel>>> =
+        remoteDataSource
+            .getData<List<FollowItemResponse>>(
+                URL.FOLLOW_USER.replace("username", username).replace("follow", type)
+            )
+            .mapState { followItemResponse ->
+                followItemResponse.mapToFollowItemModel()
             }
 }

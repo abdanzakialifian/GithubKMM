@@ -97,7 +97,7 @@ private fun UsersPagingState(
                 items(count = pagingData.itemCount, key = { it }) { index ->
                     val item = pagingData[index]
                     UserItem(
-                        name = item?.login.orEmpty(),
+                        username = item?.login.orEmpty(),
                         imageUrl = item?.avatarUrl.orEmpty(),
                         onUserClicked = {
                             onUserClicked(item?.login.orEmpty())

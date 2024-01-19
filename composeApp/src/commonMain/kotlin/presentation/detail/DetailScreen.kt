@@ -52,8 +52,17 @@ fun DetailScreen(username: String, detailViewModel: DetailViewModel, onNavigateB
             onPager = { index ->
                 when (index) {
                     0 -> RepositoriesScreen()
-                    1 -> FollowersScreen()
-                    2 -> FollowingScreen()
+                    1 -> FollowersScreen(
+                        detailViewModel = detailViewModel,
+                        username = username,
+                        type = FollowType.FOLLOWERS.type,
+                    )
+
+                    2 -> FollowingScreen(
+                        detailViewModel = detailViewModel,
+                        username = username,
+                        type = FollowType.FOLLOWING.type,
+                    )
                 }
             }
         )

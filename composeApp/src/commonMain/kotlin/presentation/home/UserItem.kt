@@ -30,7 +30,7 @@ import io.kamel.image.asyncPainterResource
 
 @Composable
 fun UserItem(
-    name: String,
+    username: String,
     imageUrl: String,
     onUserClicked: () -> Unit,
     onLinkClicked: () -> Unit,
@@ -63,7 +63,7 @@ fun UserItem(
         ) {
             Text(
                 modifier = Modifier.padding(start = 4.dp),
-                text = name,
+                text = username,
                 fontSize = 14.sp,
                 fontFamily = fontFamilyResource(MR.fonts.Poppins.semiBold),
             )
