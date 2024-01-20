@@ -1,11 +1,32 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Kotlin & Compose Multiplatform - Github User
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+![Example Github Users](https://github.com/abdanzakialifian/GithubKMM/assets/77202517/e38dd2c0-6aae-47e6-8bd3-d7561f0e331d)
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+Github User is a multiplatform app built using Kotlin and Compose Multiplatform. It features an nice
+user interface and experience using Material 3. 
+
+## Features ✨
+- Splash Screen
+- List Users
+- Detail User
+
+## Tech Stack 📚
+- [Kotlin Multiplatform](https://kotlinlang.org/lp/multiplatform/)
+- [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
+- [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- [Ktor](https://ktor.io/)
+- [Moko Resources](https://github.com/icerockdev/moko-resources)
+- [Kamel Image](https://github.com/Kamel-Media/Kamel)
+- [Napier Logging](https://github.com/AAkira/Napier)
+- [Koin](https://insert-koin.io/docs/reference/koin-compose/multiplatform/)
+- [PreCompose](https://github.com/Tlaster/PreCompose)
+- [Compottie](https://github.com/alexzhirkevich/compottie)
+
+## Development 🛠️
+
+You can just clone the repo and build it locally without requiring any changes. 
+
+Project requires JDK 20+, and based on the AGP version defined in [`libs.versions.toml`](/gradle/libs.versions.toml) file, 
+you can use appropriate Android Studio to import the project.
+
+
