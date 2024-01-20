@@ -86,6 +86,9 @@ kotlin {
             api(libs.tlaster.precompose)
             api(libs.tlaster.precompose.viewmodel)
             api(libs.tlaster.precompose.koin)
+
+            // Compottie
+            implementation(libs.compottie)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
