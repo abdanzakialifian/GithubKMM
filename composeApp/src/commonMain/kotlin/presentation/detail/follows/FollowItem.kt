@@ -1,4 +1,4 @@
-package presentation.detail
+package presentation.detail.follows
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

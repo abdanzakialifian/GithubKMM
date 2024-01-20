@@ -1,4 +1,4 @@
-package presentation.detail
+package presentation.detail.follows
 
 enum class FollowType(val type: String) {
     FOLLOWERS("followers"),

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,53 +21,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmm.githubkmm.MR
+import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
-import domain.model.DetailModel
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
-import utils.orHyphen
 
 @Composable
-fun DetailContent(
-    data: DetailModel,
-    onNavigateBack: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+fun DetailContentError(onNavigateBack: () -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(
-                onClick = onNavigateBack,
-                content = {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
-            )
-
-            Text(
-                text = data.login.orEmpty(),
-                fontFamily = fontFamilyResource(MR.fonts.Poppins.medium),
-                fontSize = 14.sp,
-            )
-        }
+        IconButton(
+            onClick = onNavigateBack,
+            content = {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            }
+        )
 
         Column(modifier = Modifier.padding(20.dp)) {
             Row(modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
-                KamelImage(
+                Box(
                     modifier = Modifier
                         .size(80.dp)
                         .clip(CircleShape)
+                        .background(color = colorResource(MR.colors.darkGrey))
                         .border(border = BorderStroke(1.dp, Color.Black), CircleShape),
-                    resource = asyncPainterResource(data.avatarUrl.orEmpty()),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = null,
-                    onLoading = {
-                        Box(modifier = Modifier.fillMaxSize().background(color = Color.Gray))
-                    },
                 )
 
                 Row(
@@ -83,7 +61,7 @@ fun DetailContent(
                         )
 
                         Text(
-                            text = data.publicRepos.toString(),
+                            text = "0",
                             fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                             fontSize = 14.sp,
                         )
@@ -97,7 +75,7 @@ fun DetailContent(
                         )
 
                         Text(
-                            text = data.followers.toString(),
+                            text = "0",
                             fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                             fontSize = 14.sp,
                         )
@@ -111,19 +89,13 @@ fun DetailContent(
                         )
 
                         Text(
-                            text = data.following.toString(),
+                            text = "0",
                             fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                             fontSize = 14.sp,
                         )
                     }
                 }
             }
-
-            Text(
-                text = data.name.orEmpty(),
-                fontFamily = fontFamilyResource(MR.fonts.Poppins.semiBold),
-                fontSize = 16.sp,
-            )
 
             Row {
                 Text(
@@ -133,7 +105,7 @@ fun DetailContent(
                 )
 
                 Text(
-                    text = data.bio.orHyphen(),
+                    text = "-",
                     fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                     fontSize = 12.sp,
                     overflow = TextOverflow.Ellipsis,
@@ -148,7 +120,7 @@ fun DetailContent(
                 )
 
                 Text(
-                    text = data.company.orHyphen(),
+                    text = "-",
                     fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                     fontSize = 12.sp,
                     overflow = TextOverflow.Ellipsis,

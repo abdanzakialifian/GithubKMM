@@ -1,4 +1,4 @@
-package presentation.detail.repositories
+package presentation.detail.follows
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -18,24 +18,25 @@ import presentation.detail.DetailViewModel
 import utils.UiState
 
 @Composable
-fun RepositoriesScreen(detailViewModel: DetailViewModel, username: String) {
-    val getRepositories by detailViewModel.getRepositories.collectAsStateWithLifecycle()
+fun FollowersScreen(detailViewModel: DetailViewModel, username: String, type: String) {
+    val getFollowers by detailViewModel.getFollows.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         detailViewModel.setUsername(username)
+        detailViewModel.setType(type)
     }
 
     LazyColumn {
-        when (val uiState = getRepositories) {
+        when (val uiState = getFollowers) {
             is UiState.Loading -> {
                 items(10) {
-                    RepositoryItemPlaceholder()
+                    FollowItemPlaceholder()
                 }
             }
 
             is UiState.Success -> {
                 items(uiState.data, key = { it.id ?: 0 }) { data ->
-                    RepositoryItem(repositoryItemModel = data)
+                    FollowItem(username = data.login.orEmpty(), imageUrl = data.avatarUrl.orEmpty())
                 }
             }
 

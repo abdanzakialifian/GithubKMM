@@ -1,4 +1,4 @@
-package presentation.detail
+package presentation.detail.repositories
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
