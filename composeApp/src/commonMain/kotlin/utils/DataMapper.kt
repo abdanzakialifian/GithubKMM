@@ -30,13 +30,11 @@ object DataMapper {
         company = company,
     )
 
-    fun List<FollowItemResponse>.mapToFollowItemModel(): List<FollowItemModel> = this.map { map ->
-        FollowItemModel(
-            id = map.id,
-            avatarUrl = map.avatarUrl,
-            login = map.login,
-        )
-    }
+    fun FollowItemResponse.mapToFollowItemModel(): FollowItemModel = FollowItemModel(
+        id = id,
+        avatarUrl = avatarUrl,
+        login = login,
+    )
 
     fun RepositoryItemResponse.mapToRepositoryItemModel(color: Color): RepositoryItemModel =
         RepositoryItemModel(

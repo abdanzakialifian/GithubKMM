@@ -6,10 +6,10 @@ import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
 import app.cash.paging.map
 import data.source.remote.RemoteDataSource
+import data.source.remote.paging.FollowsPagingSource
 import data.source.remote.paging.RepositoriesPagingSource
 import data.source.remote.paging.UsersPagingSource
 import data.source.remote.response.DetailResponse
-import data.source.remote.response.FollowItemResponse
 import domain.model.DetailModel
 import domain.model.FollowItemModel
 import domain.model.RepositoryItemModel
@@ -30,6 +30,7 @@ import org.jetbrains.skia.Color as ColorSkia
 class GithubRepositoryImpl(
     private val usersPagingSource: UsersPagingSource,
     private val repositoriesPagingSource: RepositoriesPagingSource,
+    private val followsPagingSource: FollowsPagingSource,
     private val remoteDataSource: RemoteDataSource,
 ) : GithubRepository {
     override fun getUsers(query: String): Flow<PagingData<UserItemModel>> = Pager(
@@ -55,14 +56,22 @@ class GithubRepositoryImpl(
                 detailResponse.mapToDetailModel()
             }
 
-    override fun getFollows(username: String, type: String): Flow<UiState<List<FollowItemModel>>> =
-        remoteDataSource
-            .getData<List<FollowItemResponse>>(
-                URL.FOLLOW_USER.replace("username", username).replace("follow", type)
-            )
-            .mapState { followItemResponse ->
-                followItemResponse.mapToFollowItemModel()
+    override fun getFollows(username: String, type: String): Flow<PagingData<FollowItemModel>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                initialLoadSize = 10,
+            ),
+            pagingSourceFactory = {
+                followsPagingSource.apply {
+                    setData(username = username, type = type)
+                }
+            },
+        ).flow.map { pagingData ->
+            pagingData.map { data ->
+                data.mapToFollowItemModel()
             }
+        }
 
     override fun getRepositories(username: String): Flow<PagingData<RepositoryItemModel>> = Pager(
         config = PagingConfig(

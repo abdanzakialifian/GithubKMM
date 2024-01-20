@@ -57,7 +57,8 @@ private fun RepositoriesPagingState(
             is LoadState.NotLoading -> {
                 items(
                     count = pagingData.itemCount,
-                    key = pagingData.itemKey { it.id ?: 0 }) { index ->
+                    key = pagingData.itemKey { it.id ?: 0 }
+                ) { index ->
                     val data = pagingData[index]
                     RepositoryItem(repositoryItemModel = data)
                 }

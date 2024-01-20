@@ -4,6 +4,7 @@ import data.repository.GithubRepositoryImpl
 import data.source.remote.RemoteDataSource
 import data.source.remote.client.GithubApi
 import data.source.remote.client.GithubClient
+import data.source.remote.paging.FollowsPagingSource
 import data.source.remote.paging.RepositoriesPagingSource
 import data.source.remote.paging.UsersPagingSource
 import domain.interactor.GetDetail
@@ -21,7 +22,8 @@ val dataModule = module {
     single { RemoteDataSource(get()) }
     factory { UsersPagingSource(get()) }
     factory { RepositoriesPagingSource(get()) }
-    factory<GithubRepository> { GithubRepositoryImpl(get(), get(), get()) }
+    factory { FollowsPagingSource(get()) }
+    factory<GithubRepository> { GithubRepositoryImpl(get(), get(), get(), get()) }
 }
 
 val useCaseModule = module {

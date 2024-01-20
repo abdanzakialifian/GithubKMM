@@ -45,17 +45,17 @@ class DetailViewModel(
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val getFollows: StateFlow<UiState<List<FollowItemModel>>> =
+    val getFollows: StateFlow<PagingData<FollowItemModel>> =
         combine(_username, _type) { username, type ->
             Pair(username, type)
         }.flatMapLatest { pair ->
             val username = pair.first
             val type = pair.second
             getFollowsUseCase(username, type)
-        }.stateIn(
+        }.cachedIn(viewModelScope).stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
-            UiState.Loading,
+            PagingData.empty(),
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)

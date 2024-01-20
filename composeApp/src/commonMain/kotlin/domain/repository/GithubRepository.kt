@@ -13,7 +13,7 @@ interface GithubRepository {
 
     fun getDetail(username: String): Flow<UiState<DetailModel>>
 
-    fun getFollows(username: String, type: String): Flow<UiState<List<FollowItemModel>>>
+    fun getFollows(username: String, type: String): Flow<PagingData<FollowItemModel>>
 
     fun getRepositories(username: String): Flow<PagingData<RepositoryItemModel>>
 }
