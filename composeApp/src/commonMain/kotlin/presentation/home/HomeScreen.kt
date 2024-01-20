@@ -42,29 +42,34 @@ fun HomeScreen(homeViewModel: HomeViewModel, onNavigateToDetail: (String) -> Uni
     val getUsersPagingData = homeViewModel.getUsers.collectAsLazyPagingItems()
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = stringResource(MR.strings.app_name_ui),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = fontFamilyResource(MR.fonts.Poppins.bold),
-        )
+        Column(
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp, end = 10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(MR.strings.app_name_ui),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = fontFamilyResource(MR.fonts.Poppins.bold),
+            )
 
-        Text(
-            modifier = Modifier.padding(top = 6.dp),
-            text = stringResource(MR.strings.app_description),
-            fontSize = 12.sp,
-            textAlign = TextAlign.Center,
-            fontFamily = fontFamilyResource(MR.fonts.Poppins.medium),
-        )
+            Text(
+                text = stringResource(MR.strings.app_description),
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = fontFamilyResource(MR.fonts.Poppins.medium),
+            )
 
-        SearchBar(
-            value = homeViewModel.search,
-            placeholder = MR.strings.search_users,
-            isSingleLine = true,
-            onValueChange = { search ->
-                homeViewModel.onSearchQuery(search)
-            }
-        )
+            SearchBar(
+                modifier = Modifier.padding(top = 10.dp),
+                value = homeViewModel.search,
+                placeholder = MR.strings.search_users,
+                isSingleLine = true,
+                onValueChange = { search ->
+                    homeViewModel.onSearchQuery(search)
+                }
+            )
+        }
 
         UsersPagingState(
             getUsersPagingData,
