@@ -51,7 +51,11 @@ fun DetailScreen(username: String, detailViewModel: DetailViewModel, onNavigateB
             onNavigateBack = onNavigateBack,
             onPager = { index ->
                 when (index) {
-                    0 -> RepositoriesScreen()
+                    0 -> RepositoriesScreen(
+                        detailViewModel = detailViewModel,
+                        username = username,
+                    )
+
                     1 -> FollowersScreen(
                         detailViewModel = detailViewModel,
                         username = username,

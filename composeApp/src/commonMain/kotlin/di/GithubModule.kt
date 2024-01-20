@@ -7,6 +7,7 @@ import data.source.remote.client.GithubClient
 import data.source.remote.paging.UsersPagingSource
 import domain.interactor.GetDetail
 import domain.interactor.GetFollows
+import domain.interactor.GetRepositories
 import domain.interactor.GetUsers
 import domain.repository.GithubRepository
 import org.koin.dsl.module
@@ -25,9 +26,10 @@ val useCaseModule = module {
     factory { GetUsers(get()) }
     factory { GetDetail(get()) }
     factory { GetFollows(get()) }
+    factory { GetRepositories(get()) }
 }
 
 val viewModelModule = module {
     factory { HomeViewModel(get()) }
-    factory { DetailViewModel(get(), get()) }
+    factory { DetailViewModel(get(), get(), get()) }
 }

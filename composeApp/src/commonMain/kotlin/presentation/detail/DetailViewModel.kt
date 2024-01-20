@@ -2,8 +2,10 @@ package presentation.detail
 
 import domain.interactor.GetDetail
 import domain.interactor.GetFollows
+import domain.interactor.GetRepositories
 import domain.model.DetailModel
 import domain.model.FollowItemModel
+import domain.model.RepositoryItemModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,6 +20,7 @@ import utils.UiState
 class DetailViewModel(
     private val getDetailUseCase: GetDetail,
     private val getFollowsUseCase: GetFollows,
+    private val getRepositoriesUseCase: GetRepositories,
 ) : ViewModel() {
     private val _username = MutableStateFlow("")
     private val _type = MutableStateFlow("")
@@ -47,6 +50,16 @@ class DetailViewModel(
             val username = pair.first
             val type = pair.second
             getFollowsUseCase(username, type)
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            UiState.Loading,
+        )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val getRepositories: StateFlow<UiState<List<RepositoryItemModel>>> =
+        _username.flatMapLatest { username ->
+            getRepositoriesUseCase(username)
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),

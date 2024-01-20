@@ -8,14 +8,17 @@ import data.source.remote.RemoteDataSource
 import data.source.remote.paging.UsersPagingSource
 import data.source.remote.response.DetailResponse
 import data.source.remote.response.FollowItemResponse
+import data.source.remote.response.RepositoryItemResponse
 import domain.model.DetailModel
 import domain.model.FollowItemModel
+import domain.model.RepositoryItemModel
 import domain.model.UserItemModel
 import domain.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import utils.DataMapper.mapToDetailModel
 import utils.DataMapper.mapToFollowItemModel
+import utils.DataMapper.mapToRepositoryItemModel
 import utils.DataMapper.mapToUserItemModel
 import utils.URL
 import utils.UiState
@@ -55,5 +58,14 @@ class GithubRepositoryImpl(
             )
             .mapState { followItemResponse ->
                 followItemResponse.mapToFollowItemModel()
+            }
+
+    override fun getRepositories(username: String): Flow<UiState<List<RepositoryItemModel>>> =
+        remoteDataSource
+            .getData<List<RepositoryItemResponse>>(
+                URL.REPOSITORY_USER.replace("username", username)
+            )
+            .mapState { repositoryItemResponses ->
+                repositoryItemResponses.mapToRepositoryItemModel()
             }
 }
