@@ -2,6 +2,7 @@ package presentation.detail.follows
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,7 +38,7 @@ fun FollowingScreen(detailViewModel: DetailViewModel, username: String, type: St
     FollowersPagingState(
         pagingData = getFollowers,
         onRetry = {
-
+            getFollowers.retry()
         },
     )
 }
@@ -45,9 +46,10 @@ fun FollowingScreen(detailViewModel: DetailViewModel, username: String, type: St
 @Composable
 private fun FollowersPagingState(
     pagingData: LazyPagingItems<FollowItemModel>,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
         when (pagingData.loadState.refresh) {
             is LoadState.Loading -> {
                 items(10) {

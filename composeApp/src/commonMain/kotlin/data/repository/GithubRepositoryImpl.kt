@@ -25,7 +25,6 @@ import utils.URL
 import utils.UiState
 import utils.mapState
 import kotlin.random.Random
-import org.jetbrains.skia.Color as ColorSkia
 
 class GithubRepositoryImpl(
     private val usersPagingSource: UsersPagingSource,
@@ -87,12 +86,10 @@ class GithubRepositoryImpl(
         pagingData.map { data ->
             val random = Random.Default
             val color = Color(
-                ColorSkia.makeARGB(
-                    255,
-                    random.nextInt(256),
-                    random.nextInt(256),
-                    random.nextInt(256)
-                )
+                random.nextInt(256),
+                random.nextInt(256),
+                random.nextInt(256),
+                255
             )
 
             data.mapToRepositoryItemModel(color)

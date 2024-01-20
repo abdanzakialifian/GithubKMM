@@ -60,6 +60,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, onNavigateToDetail: (String) -> Uni
         SearchBar(
             value = homeViewModel.search,
             placeholder = MR.strings.search_users,
+            isSingleLine = true,
             onValueChange = { search ->
                 homeViewModel.onSearchQuery(search)
             }

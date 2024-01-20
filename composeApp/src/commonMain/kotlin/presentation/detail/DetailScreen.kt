@@ -1,14 +1,11 @@
 package presentation.detail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -18,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
@@ -43,7 +39,7 @@ fun DetailScreen(username: String, detailViewModel: DetailViewModel, onNavigateB
         stringResource(MR.strings.followers),
         stringResource(MR.strings.following),
     )
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { tabsData.size })
+    val pagerState = rememberPagerState(pageCount = { tabsData.size })
     val coroutineScope = rememberCoroutineScope()
 
     val getDetail by detailViewModel.getDetail.collectAsStateWithLifecycle()
@@ -98,9 +94,10 @@ private fun TabHeader(
     tabsData: List<String>,
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
+    modifier: Modifier = Modifier,
 ) {
     TabRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         backgroundColor = colorResource(MR.colors.darkGrey),
         contentColor = Color.White,
         selectedTabIndex = pagerState.currentPage,
@@ -135,8 +132,12 @@ private fun TabHeader(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun TabContent(pagerState: PagerState, onPager: @Composable (Int) -> Unit) {
-    HorizontalPager(state = pagerState) { index ->
-        onPager(index)
+private fun TabContent(
+    pagerState: PagerState,
+    onPager: @Composable (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    HorizontalPager(modifier = modifier, state = pagerState) { _ ->
+        onPager(pagerState.currentPage)
     }
 }
