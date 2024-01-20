@@ -17,6 +17,7 @@ import presentation.detail.DetailScreen
 import presentation.detail.DetailViewModel
 import presentation.home.HomeScreen
 import presentation.home.HomeViewModel
+import presentation.navigation.Screen
 
 @Composable
 fun App() {
@@ -33,19 +34,19 @@ fun App() {
                     NavHost(
                         navigator = navigator,
                         navTransition = NavTransition(),
-                        initialRoute = "/home",
+                        initialRoute = Screen.HomeScreen.route,
                     ) {
-                        scene(route = "/home", navTransition = NavTransition()) {
+                        scene(route = Screen.HomeScreen.route, navTransition = NavTransition()) {
                             val viewModel = koinViewModel(vmClass = HomeViewModel::class)
                             HomeScreen(
                                 homeViewModel = viewModel,
                                 onNavigateToDetail = { username ->
-                                    navigator.navigate("/detail/$username")
+                                    navigator.navigate(Screen.DetailScreen.createRoute(username))
                                 },
                             )
                         }
                         scene(
-                            route = "/detail/{username}",
+                            route = Screen.DetailScreen.route,
                             navTransition = NavTransition(),
                         ) { backStackEntry ->
                             val username = backStackEntry.path<String>("username")
