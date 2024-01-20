@@ -1,5 +1,7 @@
 package presentation.detail
 
+import app.cash.paging.PagingData
+import app.cash.paging.cachedIn
 import domain.interactor.GetDetail
 import domain.interactor.GetFollows
 import domain.interactor.GetRepositories
@@ -57,12 +59,14 @@ class DetailViewModel(
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val getRepositories: StateFlow<UiState<List<RepositoryItemModel>>> =
-        _username.flatMapLatest { username ->
+    val getRepositories: StateFlow<PagingData<RepositoryItemModel>> = _username
+        .flatMapLatest { username ->
             getRepositoriesUseCase(username)
-        }.stateIn(
+        }
+        .cachedIn(viewModelScope)
+        .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
-            UiState.Loading,
+            PagingData.empty(),
         )
 }

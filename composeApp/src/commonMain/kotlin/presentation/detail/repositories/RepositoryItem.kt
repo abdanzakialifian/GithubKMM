@@ -23,13 +23,13 @@ import domain.model.RepositoryItemModel
 
 @Composable
 fun RepositoryItem(
-    repositoryItemModel: RepositoryItemModel,
+    repositoryItemModel: RepositoryItemModel?,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Row {
             Text(
-                text = repositoryItemModel.name.orEmpty(),
+                text = repositoryItemModel?.name.orEmpty(),
                 fontFamily = fontFamilyResource(MR.fonts.Poppins.medium),
                 fontSize = 16.sp,
             )
@@ -40,7 +40,7 @@ fun RepositoryItem(
                     .clip(RoundedCornerShape(20.dp))
                     .background(Color.Black)
                     .padding(vertical = 4.dp, horizontal = 8.dp),
-                text = repositoryItemModel.visibility.orEmpty(),
+                text = repositoryItemModel?.visibility.orEmpty(),
                 fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                 fontSize = 9.sp,
                 color = colorResource(MR.colors.grey),
@@ -52,15 +52,15 @@ fun RepositoryItem(
                 modifier = Modifier
                     .size(10.dp)
                     .clip(CircleShape)
-                    .background(repositoryItemModel.color ?: Color.Blue)
+                    .background(repositoryItemModel?.color ?: Color.Blue)
             )
 
             Text(
                 modifier = Modifier.padding(start = 6.dp),
-                text = repositoryItemModel.language.orEmpty(),
+                text = repositoryItemModel?.language.orEmpty(),
                 fontFamily = fontFamilyResource(MR.fonts.Poppins.regular),
                 fontSize = 12.sp,
-                color = colorResource(MR.colors.darkGrey)
+                color = colorResource(MR.colors.darkGrey),
             )
         }
     }

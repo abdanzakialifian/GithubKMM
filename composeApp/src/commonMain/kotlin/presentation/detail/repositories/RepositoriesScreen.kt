@@ -2,44 +2,68 @@ package presentation.detail.repositories
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
+import app.cash.paging.compose.itemKey
 import com.kmm.githubkmm.MR
+import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.painterResource
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import domain.model.RepositoryItemModel
 import presentation.detail.DetailViewModel
-import utils.UiState
 
 @Composable
 fun RepositoriesScreen(detailViewModel: DetailViewModel, username: String) {
-    val getRepositories by detailViewModel.getRepositories.collectAsStateWithLifecycle()
+    val getRepositories = detailViewModel.getRepositories.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         detailViewModel.setUsername(username)
     }
 
+    RepositoriesPagingState(
+        pagingData = getRepositories,
+        onRetry = {
+            getRepositories.retry()
+        },
+    )
+}
+
+@Composable
+private fun RepositoriesPagingState(
+    pagingData: LazyPagingItems<RepositoryItemModel>,
+    onRetry: () -> Unit,
+) {
     LazyColumn {
-        when (val uiState = getRepositories) {
-            is UiState.Loading -> {
+        when (pagingData.loadState.refresh) {
+            is LoadState.Loading -> {
                 items(10) {
                     RepositoryItemPlaceholder()
                 }
             }
 
-            is UiState.Success -> {
-                items(uiState.data, key = { it.id ?: 0 }) { data ->
+            is LoadState.NotLoading -> {
+                items(
+                    count = pagingData.itemCount,
+                    key = pagingData.itemKey { it.id ?: 0 }) { index ->
+                    val data = pagingData[index]
                     RepositoryItem(repositoryItemModel = data)
                 }
             }
 
-            is UiState.Error -> {
+            is LoadState.Error -> {
                 item {
                     Box(
                         modifier = Modifier.fillParentMaxSize(),
@@ -51,6 +75,40 @@ fun RepositoriesScreen(detailViewModel: DetailViewModel, username: String) {
                             contentDescription = null,
                         )
                     }
+                }
+            }
+        }
+
+        if (pagingData.loadState.append is LoadState.Loading) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(40.dp),
+                        color = colorResource(MR.colors.darkGrey),
+                    )
+                }
+            }
+        }
+
+        if (pagingData.loadState.append is LoadState.Error) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    IconButton(
+                        onClick = onRetry,
+                        content = {
+                            Icon(
+                                modifier = Modifier.size(40.dp),
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = null,
+                            )
+                        },
+                    )
                 }
             }
         }

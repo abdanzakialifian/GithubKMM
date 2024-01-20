@@ -9,8 +9,6 @@ import domain.model.DetailModel
 import domain.model.FollowItemModel
 import domain.model.RepositoryItemModel
 import domain.model.UserItemModel
-import kotlin.random.Random
-import org.jetbrains.skia.Color as ColorSkia
 
 object DataMapper {
     fun UserItemResponse.mapToUserItemModel(): UserItemModel = UserItemModel(
@@ -40,23 +38,12 @@ object DataMapper {
         )
     }
 
-    fun List<RepositoryItemResponse>.mapToRepositoryItemModel(): List<RepositoryItemModel> =
-        this.map { map ->
-            val random = Random.Default
-            val color = Color(
-                ColorSkia.makeARGB(
-                    255,
-                    random.nextInt(256),
-                    random.nextInt(256),
-                    random.nextInt(256)
-                )
-            )
-            RepositoryItemModel(
-                id = map.id,
-                name = map.name,
-                language = map.language,
-                visibility = map.visibility,
-                color = color,
-            )
-        }
+    fun RepositoryItemResponse.mapToRepositoryItemModel(color: Color): RepositoryItemModel =
+        RepositoryItemModel(
+            id = id,
+            name = name,
+            language = language,
+            visibility = visibility,
+            color = color,
+        )
 }

@@ -8,7 +8,6 @@ import domain.model.UserItemModel
 import kotlinx.coroutines.flow.Flow
 import utils.UiState
 
-
 interface GithubRepository {
     fun getUsers(query: String): Flow<PagingData<UserItemModel>>
 
@@ -16,5 +15,5 @@ interface GithubRepository {
 
     fun getFollows(username: String, type: String): Flow<UiState<List<FollowItemModel>>>
 
-    fun getRepositories(username: String): Flow<UiState<List<RepositoryItemModel>>>
+    fun getRepositories(username: String): Flow<PagingData<RepositoryItemModel>>
 }
