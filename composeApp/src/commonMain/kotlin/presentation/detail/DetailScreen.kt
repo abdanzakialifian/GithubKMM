@@ -45,7 +45,7 @@ fun DetailScreen(username: String, detailViewModel: DetailViewModel, onNavigateB
     val getDetail by detailViewModel.getDetail.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        detailViewModel.setUsername(username)
+        detailViewModel.setUsernameDetail(username)
     }
 
     Column {

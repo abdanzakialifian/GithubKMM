@@ -24,11 +24,30 @@ class DetailViewModel(
     private val getFollowsUseCase: GetFollows,
     private val getRepositoriesUseCase: GetRepositories,
 ) : ViewModel() {
-    private val _username = MutableStateFlow("")
+    private val _usernameDetail = MutableStateFlow("")
+
+    private val _usernameRepositories = MutableStateFlow("")
+
+    private val _usernameFollowers = MutableStateFlow("")
+
+    private val _usernameFollowing = MutableStateFlow("")
+
     private val _type = MutableStateFlow("")
 
-    fun setUsername(username: String) {
-        this._username.value = username
+    fun setUsernameDetail(username: String) {
+        this._usernameDetail.value = username
+    }
+
+    fun setUsernameRepositories(username: String) {
+        this._usernameRepositories.value = username
+    }
+
+    fun setUsernameFollowers(username: String) {
+        this._usernameFollowers.value = username
+    }
+
+    fun setUsernameFollowing(username: String) {
+        this._usernameFollowing.value = username
     }
 
     fun setType(type: String) {
@@ -36,7 +55,7 @@ class DetailViewModel(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val getDetail: StateFlow<UiState<DetailModel>> = _username.flatMapLatest { username ->
+    val getDetail: StateFlow<UiState<DetailModel>> = _usernameDetail.flatMapLatest { username ->
         getDetailUseCase(username)
     }.stateIn(
         viewModelScope,
@@ -45,8 +64,8 @@ class DetailViewModel(
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val getFollows: StateFlow<PagingData<FollowItemModel>> =
-        combine(_username, _type) { username, type ->
+    val getFollowers: StateFlow<PagingData<FollowItemModel>> =
+        combine(_usernameFollowers, _type) { username, type ->
             Pair(username, type)
         }.flatMapLatest { pair ->
             val username = pair.first
@@ -59,7 +78,21 @@ class DetailViewModel(
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val getRepositories: StateFlow<PagingData<RepositoryItemModel>> = _username
+    val getFollowing: StateFlow<PagingData<FollowItemModel>> =
+        combine(_usernameFollowing, _type) { username, type ->
+            Pair(username, type)
+        }.flatMapLatest { pair ->
+            val username = pair.first
+            val type = pair.second
+            getFollowsUseCase(username, type)
+        }.cachedIn(viewModelScope).stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            PagingData.empty(),
+        )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val getRepositories: StateFlow<PagingData<RepositoryItemModel>> = _usernameRepositories
         .flatMapLatest { username ->
             getRepositoriesUseCase(username)
         }

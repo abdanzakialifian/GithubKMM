@@ -1,6 +1,5 @@
 package data.source.remote.client
 
-import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -40,8 +39,8 @@ object GithubClient {
                 bearer {
                     loadTokens {
                         BearerTokens(
-                            "",
-                            ""
+                            "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",
+                            "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"
                         )
                     }
                 }
@@ -51,6 +50,6 @@ object GithubClient {
                 requestTimeoutMillis = 30_000L
                 socketTimeoutMillis = 30_000L
             }
-        }.also { Napier.base(DebugAntilog()) }
+        }
     }
 }

@@ -28,10 +28,10 @@ import presentation.detail.DetailViewModel
 
 @Composable
 fun FollowersScreen(detailViewModel: DetailViewModel, username: String, type: String) {
-    val getFollowers = detailViewModel.getFollows.collectAsLazyPagingItems()
+    val getFollowers = detailViewModel.getFollowers.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
-        detailViewModel.setUsername(username)
+        detailViewModel.setUsernameFollowers(username)
         detailViewModel.setType(type)
     }
 

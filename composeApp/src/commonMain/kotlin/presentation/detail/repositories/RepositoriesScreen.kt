@@ -31,7 +31,7 @@ fun RepositoriesScreen(detailViewModel: DetailViewModel, username: String) {
     val getRepositories = detailViewModel.getRepositories.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
-        detailViewModel.setUsername(username)
+        detailViewModel.setUsernameRepositories(username)
     }
 
     RepositoriesPagingState(
